@@ -1,13 +1,12 @@
 #include "main.h"
-
 /**
- * display_hex - Print unsigned hex numbers in lowercase.
+ * display_HEX - Print unsigned hex numbers in uppercase.
  * @args: The argument pointer.
  * @params: The parameters struct.
  *
  * Return: Number of bytes printed.
  */
-int display_hex(va_list args, param_t *params)
+int display_HEX(va_list args, param_t *params)
 {
 	unsigned long val;
 	int count = 0;
@@ -20,12 +19,13 @@ int display_hex(va_list args, param_t *params)
 	else
 		val = (unsigned int)va_arg(args, unsigned int);
 
-	str = num_convert(val, 16, UNSIGNED_CONV  | TO_LOWERCASE , params);
+	str = num_convert(val, 16, UNSIGNED_CONV, params);
 	if (params->hashtag && val)
 	{
-		*--str = 'x';
+		*--str = 'X';
 		*--str = '0';
 	}
 	params->isUnsigned = 1;
 	return (count += print_num_str(str, params));
 }
+
