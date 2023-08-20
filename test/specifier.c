@@ -47,10 +47,10 @@ int (*fetch_specifier(char *s))(va_list args, param_t *params)
  */
 int fetch_print_func(char *s, va_list args, param_t *params)
 {
-	int (*f)(va_list, param_t *) = fetch_specifier(s);
+	int (*funcPtr)(va_list, param_t *) = fetch_specifier(s);
 
-	if (f)
-		return (f(args, params));
+	if (funcPtr)
+		return (funcPtr(args, params));
 	return (0);
 }
 
