@@ -34,7 +34,7 @@
 #define MY_HIST_FILE	".my_shell_history"
 #define MY_HIST_MAX	4096
 
-extern char **my_environ;
+extern char **environ;
 
 /**
  * struct my_liststr - singly linked list

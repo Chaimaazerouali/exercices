@@ -8,8 +8,8 @@
  */
 int my_env(my_info_t *info)
 {
-    print_my_list_str(info->env);
-    return (0);
+print_my_list_str(info->env);
+return (0);
 }
 
 /**
@@ -21,17 +21,17 @@ int my_env(my_info_t *info)
  */
 char *my_getenv(my_info_t *info, const char *name)
 {
-    my_list_t *node = info->env;
-    char *p;
+my_list_t *node = info->env;
+char *p;
 
-    while (node)
-    {
-        p = my_starts_with(node->str, name);
-        if (p && *p)
-            return (p);
-        node = node->next;
-    }
-    return (NULL);
+while (node)
+{
+p = my_starts_with(node->str, name);
+if (p && *p)
+return (p);
+node = node->next;
+}
+return (NULL);
 }
 
 /**
@@ -43,14 +43,14 @@ char *my_getenv(my_info_t *info, const char *name)
  */
 int my_setenv(my_info_t *info)
 {
-    if (info->argc != 3)
-    {
-        my_eputs("Incorrect number of arguements\n");
-        return (1);
-    }
-    if (my_setenv2(info, info->argv[1], info->argv[2]))
-        return (0);
-    return (1);
+if (info->argc != 3)
+{
+my_eputs("Incorrect number of arguements\n");
+return (1);
+}
+if (my_setenv2(info, info->argv[1], info->argv[2]))
+return (0);
+return (1);
 }
 
 /**
@@ -61,17 +61,17 @@ int my_setenv(my_info_t *info)
  */
 int my_unsetenv(my_info_t *info)
 {
-    int i;
+int i;
 
-    if (info->argc == 1)
-    {
-        my_eputs("Too few arguements.\n");
-        return (1);
-    }
-    for (i = 1; i <= info->argc; i++)
-        my_unsetenv2(info, info->argv[i]);
+if (info->argc == 1)
+{
+my_eputs("Too few arguements.\n");
+return (1);
+}
+for (i = 1; i <= info->argc; i++)
+my_unsetenv2(info, info->argv[i]);
 
-    return (0);
+return (0);
 }
 
 /**
@@ -82,12 +82,12 @@ int my_unsetenv(my_info_t *info)
  */
 int populate_my_env_list(my_info_t *info)
 {
-    my_list_t *node = NULL;
-    size_t i;
+my_list_t *node = NULL;
+size_t i;
 
-    for (i = 0; info->my_environ[i]; i++)
-        add_my_node_end(&node, info->my_environ[i], 0);
-    info->env = node;
-    return (0);
+for (i = 0; environ[i]; i++)
+add_my_node_end(&node, environ[i], 0);
+info->env = node;
+return (0);
 }
 

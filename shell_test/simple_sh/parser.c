@@ -9,17 +9,17 @@
  */
 int is_my_cmd(my_info_t *info, char *path)
 {
-    struct stat st;
+struct stat st;
 
-    (void)info;
-    if (!path || stat(path, &st))
-        return (0);
+(void)info;
+if (!path || stat(path, &st))
+return (0);
 
-    if (st.st_mode & S_IFREG)
-    {
-        return (1);
-    }
-    return (0);
+if (st.st_mode & S_IFREG)
+{
+return (1);
+}
+return (0);
 }
 
 /**
@@ -32,14 +32,14 @@ int is_my_cmd(my_info_t *info, char *path)
  */
 char *duplicate_chars(char *pathstr, int start, int stop)
 {
-    static char buf[1024];
-    int i = 0, k = 0;
+static char buf[1024];
+int i = 0, k = 0;
 
-    for (k = 0, i = start; i < stop; i++)
-        if (pathstr[i] != ':')
-            buf[k++] = pathstr[i];
-    buf[k] = 0;
-    return (buf);
+for (k = 0, i = start; i < stop; i++)
+if (pathstr[i] != ':')
+buf[k++] = pathstr[i];
+buf[k] = 0;
+return (buf);
 }
 
 /**
@@ -52,36 +52,36 @@ char *duplicate_chars(char *pathstr, int start, int stop)
  */
 char *find_my_path(my_info_t *info, char *pathstr, char *cmd)
 {
-    int i = 0, curr_pos = 0;
-    char *path;
+int i = 0, curr_pos = 0;
+char *path;
 
-    if (!pathstr)
-        return (NULL);
-    if ((my_strlen(cmd) > 2) && my_starts_with(cmd, "./"))
-    {
-        if (is_my_cmd(info, cmd))
-            return (cmd);
-    }
-    while (1)
-    {
-        if (!pathstr[i] || pathstr[i] == ':')
-        {
-            path = duplicate_chars(pathstr, curr_pos, i);
-            if (!*path)
-                my_strcat(path, cmd);
-            else
-            {
-                my_strcat(path, "/");
-                my_strcat(path, cmd);
-            }
-            if (is_my_cmd(info, path))
-                return (path);
-            if (!pathstr[i])
-                break;
-            curr_pos = i;
-        }
-        i++;
-    }
-    return (NULL);
+if (!pathstr)
+return (NULL);
+if ((my_strlen(cmd) > 2) && my_starts_with(cmd, "./"))
+{
+if (is_my_cmd(info, cmd))
+return (cmd);
+}
+while (1)
+{
+if (!pathstr[i] || pathstr[i] == ':')
+{
+path = duplicate_chars(pathstr, curr_pos, i);
+if (!*path)
+my_strcat(path, cmd);
+else
+{
+my_strcat(path, "/");
+my_strcat(path, cmd);
+}
+if (is_my_cmd(info, path))
+return (path);
+if (!pathstr[i])
+break;
+curr_pos = i;
+}
+i++;
+}
+return (NULL);
 }
 
