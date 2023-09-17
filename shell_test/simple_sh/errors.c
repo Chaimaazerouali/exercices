@@ -2,85 +2,85 @@
 
 /**
  * my_eputs - prints an input string
- * @str: the string to be printed
+ * @sr: the string to be printed
  *
  * Return: Nothing
  */
-void my_eputs(char *str)
+void my_eputs(char *sr)
 {
-int i = 0;
+int j = 0;
 
-if (!str)
+if (!sr)
 return;
-while (str[i] != '\0')
+while (sr[j] != '\0')
 {
-my_eputchar(str[i]);
-i++;
+my_eputchar(sr[j]);
+j++;
 }
 }
 
 /**
  * my_eputchar - writes the character c to stderr
- * @c: The character to print
+ * @ch: The character to print
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int my_eputchar(char c)
+int my_eputchar(char ch)
 {
-static int i;
+static int j;
 static char buf[MY_WRITE_BUF_SIZE];
 
-if (c == MY_BUF_FLUSH || i >= MY_WRITE_BUF_SIZE)
+if (ch == MY_BUF_FLUSH || j >= MY_WRITE_BUF_SIZE)
 {
-write(2, buf, i);
-i = 0;
+write(2, buf, j);
+j = 0;
 }
-if (c != MY_BUF_FLUSH)
-buf[i++] = c;
+if (ch != MY_BUF_FLUSH)
+buf[j++] = ch;
 return (1);
 }
 
 /**
  * my_putfd - writes the character c to given fd
- * @c: The character to print
- * @fd: The file descriptor to write to
+ * @ch: The character to print
+ * @f: The file descriptor to write to
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int my_putfd(char c, int fd)
+int my_putfd(char ch, int f)
 {
-static int i;
+static int j;
 static char buf[MY_WRITE_BUF_SIZE];
 
-if (c == MY_BUF_FLUSH || i >= MY_WRITE_BUF_SIZE)
+if (ch == MY_BUF_FLUSH || j >= MY_WRITE_BUF_SIZE)
 {
-write(fd, buf, i);
-i = 0;
+write(f, buf, j);
+j = 0;
 }
-if (c != MY_BUF_FLUSH)
-buf[i++] = c;
+if (ch != MY_BUF_FLUSH)
+buf[j++] = ch;
 return (1);
 }
 
 /**
  * my_putsfd - prints an input string
- * @str: the string to be printed
- * @fd: the file descriptor to write to
+ * @sr: the string to be printed
+ * @f: the file descriptor to write to
  *
  * Return: the number of chars put
  */
-int my_putsfd(char *str, int fd)
+int my_putsfd(char *sr, int f)
 {
-int i = 0;
+int j = 0;
 
-if (!str)
+if (!sr)
 return (0);
-while (*str)
+while (*sr)
 {
-i += my_putfd(*str++, fd);
+j += my_putfd(*sr++, f);
 }
-return (i);
+return (j);
 }
 

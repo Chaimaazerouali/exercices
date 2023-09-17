@@ -2,46 +2,46 @@
 
 /**
  * my_erratoi - converts a string to an integer
- * @s: the string to be converted
+ * @sr: the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  *       -1 on error
  */
-int my_erratoi(char *s)
+int my_erratoi(char *sr)
 {
-int i = 0;
-unsigned long int result = 0;
+int j = 0;
+unsigned long int r = 0;
 
-if (*s == '+')
-s++;
-for (i = 0; s[i] != '\0'; i++)
+if (*sr == '+')
+sr++;
+for (j = 0; sr[j] != '\0'; j++)
 {
-if (s[i] >= '0' && s[i] <= '9')
+if (sr[j] >= '0' && sr[j] <= '9')
 {
-result *= 10;
-result += (s[i] - '0');
-if (result > INT_MAX)
+r *= 10;
+r += (sr[j] - '0');
+if (r > INT_MAX)
 return (-1);
 }
 else
 return (-1);
 }
-return (result);
+return (r);
 }
 
 /**
  * print_my_error - prints an error message
- * @info: the parameter & return info struct
+ * @in: the parameter & return info struct
  * @estr: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise
  *        -1 on error
  */
-void print_my_error(my_info_t *info, char *estr)
+void print_my_error(my_info_t *in, char *estr)
 {
-my_eputs(info->fname);
+my_eputs(in->fname);
 my_eputs(": ");
-print_my_d(info->line_count, STDERR_FILENO);
+print_my_d(in->line_count, STDERR_FILENO);
 my_eputs(": ");
-my_eputs(info->argv[0]);
+my_eputs(in->argv[0]);
 my_eputs(": ");
 my_eputs(estr);
 }
@@ -49,70 +49,70 @@ my_eputs(estr);
 /**
  * print_my_d - function prints a decimal (integer) number (base 10)
  * @input: the input
- * @fd: the file descriptor to write to
+ * @f: the file descriptor to write to
  *
  * Return: number of characters printed
  */
-int print_my_d(int input, int fd)
+int print_my_d(int input, int f)
 {
 int (*my_putchar)(char) = my_putchar;
-int i, count = 0;
-unsigned int _abs_, current;
+int j, c = 0;
+unsigned int a, ct;
 
-if (fd == STDERR_FILENO)
+if (f == STDERR_FILENO)
 my_putchar = my_eputchar;
 if (input < 0)
 {
-_abs_ = -input;
+a = -input;
 my_putchar('-');
-count++;
+c++;
 }
 else
-_abs_ = input;
-current = _abs_;
-for (i = 1000000000; i > 1; i /= 10)
+a = input;
+ct = a;
+for (j = 1000000000; j > 1; j /= 10)
 {
-if (_abs_ / i)
+if (a / j)
 {
-my_putchar('0' + current / i);
-count++;
+my_putchar('0' + ct / j);
+c++;
 }
-current %= i;
+ct %= j;
 }
-my_putchar('0' + current);
-count++;
+my_putchar('0' + ct);
+c++;
 
-return (count);
+return (c);
 }
 
 /**
  * convert_my_number - converter function, a clone of itoa
- * @num: number
- * @base: base
- * @flags: argument flags
+ * @nm: number
+ * @b: base
+ * @fl: argument flags
  *
  * Return: string
  */
-char *convert_my_number(long int num, int base, int flags)
+char *convert_my_number(long int nm, int b, int fl)
 {
 static char *array;
 static char buffer[50];
 char sign = 0;
 char *ptr;
-unsigned long n = num;
+unsigned long n = nm;
 
-if (!(flags & MY_CONVERT_UNSIGNED) && num < 0)
+if (!(fl & MY_CONVERT_UNSIGNED) && nm < 0)
 {
-n = -num;
+n = -nm;
 sign = '-';
 }
-array = flags & MY_CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+array = fl & MY_CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
 ptr = &buffer[49];
 *ptr = '\0';
 
 do {
-*--ptr = array[n % base];
-n /= base;
+*--ptr = array[n % b];
+n /= b;
 } while (n != 0);
 
 if (sign)
@@ -122,18 +122,18 @@ return (ptr);
 
 /**
  * remove_my_comments - function replaces first instance of '#' with '\0'
- * @buf: address of the string to modify
+ * @b: address of the string to modify
  *
  * Return: Always 0;
  */
-void remove_my_comments(char *buf)
+void remove_my_comments(char *b)
 {
-int i;
+int j;
 
-for (i = 0; buf[i] != '\0'; i++)
-if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+for (j = 0; b[j] != '\0'; j++)
+if (b[j] == '#' && (!j || b[j - 1] == ' '))
 {
-buf[i] = '\0';
+b[j] = '\0';
 break;
 }
 }

@@ -2,73 +2,73 @@
 
 /**
  * my_strncpy - copies a string
- * @dest: the destination string to be copied to
- * @src: the source string
- * @n: the amount of characters to be copied
+ * @dt: the destination string to be copied to
+ * @sc: the source string
+ * @m: the amount of characters to be copied
  * Return: the concatenated string
  */
-char *my_strncpy(char *dest, char *src, int n)
+char *my_strncpy(char *dt, char *sc, int m)
 {
 int i, j;
-char *s = dest;
+char *st = dt;
 
 i = 0;
-while (src[i] != '\0' && i < n - 1)
+while (sc[i] != '\0' && i < m - 1)
 {
-dest[i] = src[i];
+dt[i] = sc[i];
 i++;
 }
-if (i < n)
+if (i < m)
 {
 j = i;
-while (j < n)
+while (j < m)
 {
-dest[j] = '\0';
+dt[j] = '\0';
 j++;
 }
 }
-return (s);
+return (st);
 }
 
 /**
  * my_strncat - concatenates two strings
- * @dest: the first string
- * @src: the second string
- * @n: the amount of bytes to be maximally used
+ * @dt: the first string
+ * @sc: the second string
+ * @m: the amount of bytes to be maximally used
  * Return: the concatenated string
  */
-char *my_strncat(char *dest, char *src, int n)
+char *my_strncat(char *dt, char *sc, int m)
 {
 int i, j;
-char *s = dest;
+char *sg = dt;
 
 i = 0;
 j = 0;
-while (dest[i] != '\0')
+while (dt[i] != '\0')
 i++;
-while (src[j] != '\0' && j < n)
+while (sc[j] != '\0' && j < m)
 {
-dest[i] = src[j];
+dt[i] = sc[j];
 i++;
 j++;
 }
-if (j < n)
-dest[i] = '\0';
-return (s);
+if (j < m)
+dt[i] = '\0';
+return (sg);
 }
 
 /**
  * my_strchr - locates a character in a string
- * @s: the string to be parsed
- * @c: the character to look for
- * Return: (s) a pointer to the memory area s
+ * @sg: the string to be parsed
+ * @ch: the character to look for
+ * Return: (sg) a pointer to the memory area s
  */
-char *my_strchr(char *s, char c)
+char *my_strchr(char *sg, char ch)
 {
 do {
-if (*s == c)
-return (s);
-} while (*s++ != '\0');
+if (*sg == ch)
+return (sg);
+} while (*sg++ != '\0');
 
 return (NULL);
 }

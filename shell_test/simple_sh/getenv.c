@@ -1,32 +1,32 @@
 #include "shell.h"
 /**
  * get_my_environ - returns the string array copy of our environ
- * @info: Structure containing potential arguments. Used to maintain
+ * @in: Structure containing potential arguments. Used to maintain
  * constant function prototype.
  * Return: Always 0
  */
-char **get_my_environ(my_info_t *info)
+char **get_my_environ(my_info_t *in)
 {
-if (!info->my_environ || info->env_changed)
+if (!in->my_environ || in->env_changed)
 {
-info->my_environ = my_list_to_strings(info->env);
-info->env_changed = 0;
+in->my_environ = my_list_to_strings(in->env);
+in->env_changed = 0;
 }
 
-return (info->my_environ);
+return (in->my_environ);
 }
 
 /**
  * my_unsetenv2 - Remove an environment variable
- * @info: Structure containing potential arguments. Used to maintain
+ * @in: Structure containing potential arguments. Used to maintain
  * constant function prototype.
  * Return: 1 on delete, 0 otherwise
  * @var: the string env var property
  */
-int my_unsetenv2(my_info_t *info, char *var)
+int my_unsetenv2(my_info_t *in, char *var)
 {
-my_list_t *node = info->env;
-size_t i = 0;
+my_list_t *node = in->env;
+size_t j = 0;
 char *p;
 
 if (!node || !var)
@@ -37,57 +37,57 @@ while (node)
 p = my_starts_with(node->str, var);
 if (p && *p == '=')
 {
-info->env_changed = delete_my_node_at_index(&(info->env), i);
-i = 0;
-node = info->env;
+in->env_changed = delete_my_node_at_index(&(in->env), j);
+j = 0;
+node = in->env;
 continue;
 }
 node = node->next;
-i++;
+j++;
 }
-return (info->env_changed);
+return (in->env_changed);
 }
 
 /**
  * my_setenv2 - Initialize a new environment variable,
  * or modify an existing one
- * @info: Structure containing potential arguments. Used to maintain
+ * @in: Structure containing potential arguments. Used to maintain
  * constant function prototype.
- * @var: the string env var property
- * @value: the string env var value
+ * @v: the string env var property
+ * @va: the string env var value
  * Return: Always 0
  */
-int my_setenv2(my_info_t *info, char *var, char *value)
+int my_setenv2(my_info_t *in, char *v, char *va)
 {
-char *buf = NULL;
+char *b = NULL;
 my_list_t *node;
 char *p;
 
-if (!var || !value)
+if (!v || !va)
 return (0);
 
-buf = malloc(my_strlen(var) + my_strlen(value) + 2);
-if (!buf)
+b = malloc(my_strlen(v) + my_strlen(va) + 2);
+if (!b)
 return (1);
-my_strcpy(buf, var);
-my_strcat(buf, "=");
-my_strcat(buf, value);
-node = info->env;
+my_strcpy(b, v);
+my_strcat(b, "=");
+my_strcat(b, va);
+node = in->env;
 while (node)
 {
-p = my_starts_with(node->str, var);
+p = my_starts_with(node->str, v);
 if (p && *p == '=')
 {
 free(node->str);
-node->str = buf;
-info->env_changed = 1;
+node->str = b;
+in->env_changed = 1;
 return (0);
 }
 node = node->next;
 }
-add_my_node_end(&(info->env), buf, 0);
-free(buf);
-info->env_changed = 1;
+add_my_node_end(&(in->env), b, 0);
+free(b);
+in->env_changed = 1;
 return (0);
 }
 

@@ -1,143 +1,143 @@
 #include "shell.h"
 /**
  * get_my_history_file - gets the history file
- * @info: parameter struct
+ * @in: parameter struct
  *
  * Return: allocated string containing history file
  */
 
-char *get_my_history_file(my_info_t *info)
+char *get_my_history_file(my_info_t *in)
 {
-char *buf, *dir;
+char *a, *b;
 
-dir = my_getenv(info, "HOME=");
-if (!dir)
+b = my_getenv(in, "HOME=");
+if (!b)
 return (NULL);
-buf = malloc(sizeof(char) * (my_strlen(dir) + my_strlen(MY_HIST_FILE) + 2));
-if (!buf)
+a= malloc(sizeof(char) * (my_strlen(b) + my_strlen(MY_HIST_FILE) + 2));
+if (!a)
 return (NULL);
-buf[0] = 0;
-my_strcpy(buf, dir);
-my_strcat(buf, "/");
-my_strcat(buf, MY_HIST_FILE);
-return (buf);
+a[0] = 0;
+my_strcpy(a, b);
+my_strcat(a, "/");
+my_strcat(a, MY_HIST_FILE);
+return (a);
 }
 
 /**
  * write_my_history - creates a file or appends to an existing file
- * @info: the parameter struct
+ * @in: the parameter struct
  *
  * Return: 1 on success, else -1
  */
-int write_my_history(my_info_t *info)
+int write_my_history(my_info_t *in)
 {
-ssize_t fd;
-char *filename = get_my_history_file(info);
+ssize_t f;
+char *filename = get_my_history_file(in);
 my_list_t *node = NULL;
 
 if (!filename)
 return (-1);
 
-fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
+f = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 free(filename);
-if (fd == -1)
+if (f == -1)
 return (-1);
-for (node = info->history; node; node = node->next)
+for (node = in->history; node; node = node->next)
 {
-my_putsfd(node->str, fd);
-my_putfd('\n', fd);
+my_putsfd(node->str, f);
+my_putfd('\n', f);
 }
-my_putfd(MY_BUF_FLUSH, fd);
-close(fd);
+my_putfd(MY_BUF_FLUSH, f);
+close(f);
 return (1);
 }
 
 /**
  * read_my_history - reads history from a file
- * @info: the parameter struct
+ * @in: the parameter struct
  *
  * Return: histcount on success, 0 otherwise
  */
-int read_my_history(my_info_t *info)
+int read_my_history(my_info_t *in)
 {
-int i, last = 0, linecount = 0;
-ssize_t fd, rdlen, fsize = 0;
+int i, l = 0, lt = 0;
+ssize_t f, rn, fs = 0;
 struct stat st;
-char *buf = NULL, *filename = get_my_history_file(info);
+char *b = NULL, *filename = get_my_history_file(in);
 
 if (!filename)
 return (0);
 
-fd = open(filename, O_RDONLY);
+f = open(filename, O_RDONLY);
 free(filename);
-if (fd == -1)
+if (f== -1)
 return (0);
-if (!fstat(fd, &st))
-fsize = st.st_size;
-if (fsize < 2)
+if (!fstat(f, &st))
+fs = st.st_size;
+if (fs < 2)
 return (0);
-buf = malloc(sizeof(char) * (fsize + 1));
-if (!buf)
+b = malloc(sizeof(char) * (fs + 1));
+if (!b)
 return (0);
-rdlen = read(fd, buf, fsize);
-buf[fsize] = 0;
-if (rdlen <= 0)
-return (free(buf), 0);
-close(fd);
-for (i = 0; i < fsize; i++)
-if (buf[i] == '\n')
+rn = read(f, b, fs);
+b[fs] = 0;
+if (rn <= 0)
+return (free(b), 0);
+close(f);
+for (i = 0; i < fs; i++)
+if (b[i] == '\n')
 {
-buf[i] = 0;
-build_my_history_list(info, buf + last, linecount++);
-last = i + 1;
+b[i] = 0;
+build_my_history_list(in, b+ l, lt++);
+l = i + 1;
 }
-if (last != i)
-build_my_history_list(info, buf + last, linecount++);
-free(buf);
-info->histcount = linecount;
-while (info->histcount-- >= MY_HIST_MAX)
-delete_my_node_at_index(&(info->history), 0);
-renumber_my_history(info);
-return (info->histcount);
+if (l != i)
+build_my_history_list(in, b + l, lt++);
+free(b);
+in->histcount = lt;
+while (in->histcount-- >= MY_HIST_MAX)
+delete_my_node_at_index(&(in->history), 0);
+renumber_my_history(in);
+return (in->histcount);
 }
 
 /**
  * build_my_history_list - adds an entry to a history linked list
- * @info: Structure containing potential arguments. Used to maintain
- * @buf: buffer
- * @linecount: the history linecount, histcount
+ * @in: Structure containing potential arguments. Used to maintain
+ * @b: buffer
+ * @lt: the history linecount, histcount
  *
  * Return: Always 0
  */
-int build_my_history_list(my_info_t *info, char *buf, int linecount)
+int build_my_history_list(my_info_t *in, char *b, int lt)
 {
 my_list_t *node = NULL;
 
-if (info->history)
-node = info->history;
-add_my_node_end(&node, buf, linecount);
+if (in->history)
+node = in->history;
+add_my_node_end(&node, b, lt);
 
-if (!info->history)
-info->history = node;
+if (!in->history)
+in->history = node;
 return (0);
 }
 
 /**
  * renumber_my_history - renumbers the history linked list after changes
- * @info: Structure containing potential arguments. Used to maintain
+ * @in: Structure containing potential arguments. Used to maintain
  *
  * Return: the new histcount
  */
-int renumber_my_history(my_info_t *info)
+int renumber_my_history(my_info_t *in)
 {
-my_list_t *node = info->history;
-int i = 0;
+my_list_t *node = in->history;
+int x = 0;
 
 while (node)
 {
-node->num = i++;
+node->num = x++;
 node = node->next;
 }
-return (info->histcount = i);
+return (in->histcount = x);
 }
 
