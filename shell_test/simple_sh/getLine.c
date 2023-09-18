@@ -65,7 +65,7 @@ return (-1);
 if (l) /* we have commands left in the chain buffer */
 {
 j = i; /* init new iterator to current buf position */
-p = b+ i; /* get pointer for return */
+p = b + i; /* get pointer for return */
 
 check_my_chain(in, b, &j, i, l);
 while (j < l) /* iterate to semicolon or end */

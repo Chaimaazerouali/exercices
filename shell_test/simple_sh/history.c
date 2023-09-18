@@ -13,7 +13,7 @@ char *a, *b;
 b = my_getenv(in, "HOME=");
 if (!b)
 return (NULL);
-a= malloc(sizeof(char) * (my_strlen(b) + my_strlen(MY_HIST_FILE) + 2));
+a = malloc(sizeof(char) * (my_strlen(b) + my_strlen(MY_HIST_FILE) + 2));
 if (!a)
 return (NULL);
 a[0] = 0;
@@ -70,7 +70,7 @@ return (0);
 
 f = open(filename, O_RDONLY);
 free(filename);
-if (f== -1)
+if (f == -1)
 return (0);
 if (!fstat(f, &st))
 fs = st.st_size;
@@ -88,7 +88,7 @@ for (i = 0; i < fs; i++)
 if (b[i] == '\n')
 {
 b[i] = 0;
-build_my_history_list(in, b+ l, lt++);
+build_my_history_list(in, b + l, lt++);
 l = i + 1;
 }
 if (l != i)
