@@ -56,7 +56,6 @@ return (unset_alias(i, sr));
 unset_alias(i, sr);
 return (add_my_node_end(&(i->alias), sr, 0) == NULL);
 }
-
 /**
  * print_alias - prints an alias string
  * @node: the alias node
@@ -78,6 +77,7 @@ my_puts("'\n");
 return (0);
 }
 return (1);
+
 }
 
 /**
