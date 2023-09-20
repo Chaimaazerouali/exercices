@@ -47,14 +47,14 @@ return (1);
  */
 void check_my_chain(my_info_t *info, char *b, size_t *p, size_t i, size_t len)
 {
-size_t j = *p;
+size_t s = *p;
 
 if (info->cmd_buf_type == MY_CMD_AND)
 {
 if (info->status)
 {
 b[i] = 0;
-j = len;
+s = len;
 }
 }
 if (info->cmd_buf_type == MY_CMD_OR)
@@ -62,11 +62,11 @@ if (info->cmd_buf_type == MY_CMD_OR)
 if (!info->status)
 {
 b[i] = 0;
-j = len;
+s = len;
 }
 }
 
-*p = j;
+*p = s;
 }
 
 /**
@@ -77,11 +77,11 @@ j = len;
  */
 int replace_my_alias(my_info_t *info)
 {
-int i;
+int x;
 my_list_t *node;
 char *p;
 
-for (i = 0; i < 10; i++)
+for (x = 0; x < 10; x++)
 {
 node = my_node_starts_with(info->alias, info->argv[0], '=');
 if (!node)
@@ -106,34 +106,34 @@ return (1);
  */
 int replace_my_vars(my_info_t *info)
 {
-int i = 0;
+int x = 0;
 my_list_t *node;
 
-for (i = 0; info->argv[i]; i++)
+for (x = 0; info->argv[x]; x++)
 {
-if (info->argv[i][0] != '$' || !info->argv[i][1])
+if (info->argv[x][0] != '$' || !info->argv[x][1])
 continue;
 
-if (!my_strcmp(info->argv[i], "$?"))
+if (!my_strcmp(info->argv[x], "$?"))
 {
-replace_my_string(&(info->argv[i]),
+replace_my_string(&(info->argv[x]),
 my_strdup(convert_my_number(info->status, 10, 0)));
 continue;
 }
-if (!my_strcmp(info->argv[i], "$$"))
+if (!my_strcmp(info->argv[x], "$$"))
 {
-replace_my_string(&(info->argv[i]),
+replace_my_string(&(info->argv[x]),
 my_strdup(convert_my_number(getpid(), 10, 0)));
 continue;
 }
-node = my_node_starts_with(info->env, &info->argv[i][1], '=');
+node = my_node_starts_with(info->env, &info->argv[x][1], '=');
 if (node)
 {
-replace_my_string(&(info->argv[i]),
+replace_my_string(&(info->argv[x]),
 my_strdup(my_strchr(node->str, '=') + 1));
 continue;
 }
-replace_my_string(&info->argv[i], my_strdup(""));
+replace_my_string(&info->argv[x], my_strdup(""));
 }
 return (0);
 }
