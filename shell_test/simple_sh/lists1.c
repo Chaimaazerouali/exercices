@@ -1,20 +1,20 @@
 #include "shell.h"
 /**
  * my_list_len - determines length of linked list
- * @h: pointer to first node
+ * @p: pointer to first node
  *
  * Return: size of list
  */
-size_t my_list_len(const my_list_t *h)
+size_t my_list_len(const my_list_t *p)
 {
-size_t i = 0;
+size_t x = 0;
 
-while (h)
+while (p)
 {
-h = h->next;
-i++;
+p = p->next;
+x++;
 }
-return (i);
+return (x);
 }
 
 /**
@@ -26,31 +26,31 @@ return (i);
 char **my_list_to_strings(my_list_t *head)
 {
 my_list_t *node = head;
-size_t i = my_list_len(head), j;
-char **strs;
-char *str;
+size_t x= my_list_len(head), j;
+char **s;
+char *sr;
 
-if (!head || !i)
+if (!head || !x)
 return (NULL);
-strs = malloc(sizeof(char *) * (i + 1));
-if (!strs)
+s = malloc(sizeof(char *) * (x + 1));
+if (!s)
 return (NULL);
-for (i = 0; node; node = node->next, i++)
+for (x = 0; node; node = node->next, x++)
 {
-str = malloc(my_strlen(node->str) + 1);
-if (!str)
+sr = malloc(my_strlen(node->str) + 1);
+if (!sr)
 {
-for (j = 0; j < i; j++)
-free(strs[j]);
-free(strs);
+for (j = 0; j < x; j++)
+free(s[j]);
+free(s);
 return (NULL);
 }
 
-str = my_strcpy(str, node->str);
-strs[i] = str;
+sr = my_strcpy(sr, node->str);
+s[x] = sr;
 }
-strs[i] = NULL;
-return (strs);
+s[x] = NULL;
+return (s);
 }
 
 /**
@@ -61,7 +61,7 @@ return (strs);
  */
 size_t print_my_list(const my_list_t *h)
 {
-size_t i = 0;
+size_t x = 0;
 
 while (h)
 {
@@ -71,9 +71,9 @@ my_putchar(' ');
 my_puts(h->str ? h->str : "(nil)");
 my_puts("\n");
 h = h->next;
-i++;
+x++;
 }
-return (i);
+return (x);
 }
 
 /**
@@ -107,14 +107,14 @@ return (NULL);
  */
 ssize_t get_my_node_index(my_list_t *head, my_list_t *node)
 {
-size_t i = 0;
+size_t x = 0;
 
 while (head)
 {
 if (head == node)
-return (i);
+return (x);
 head = head->next;
-i++;
+x++;
 }
 return (-1);
 }
