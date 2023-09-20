@@ -45,7 +45,6 @@ free(origin);
 void *my_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 char *new_block;
-
 if (!ptr)
 return (malloc(new_size));
 
