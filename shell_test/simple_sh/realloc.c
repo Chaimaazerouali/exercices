@@ -1,63 +1,73 @@
 #include "shell.h"
 
 /**
- * my_memset - fills memory with a constant byte
- * @s: the pointer to the memory area
- * @b: the byte to fill *s with
- * @n: the amount of bytes to be filled
- * Return: (s) a pointer to the memory area s
+ * my_memset - Fills a memory block with a specified byte.
+ * @s: Pointer to the memory area.
+ * @b: The byte to fill the memory with.
+ * @n: Number of bytes to be filled.
+ * Return: Pointer to the filled memory area.
  */
 char *my_memset(char *s, char b, unsigned int n)
 {
-unsigned int i;
+unsigned int idx;
 
-for (i = 0; i < n; i++)
-s[i] = b;
+for (idx = 0; idx < n; idx++)
+s[idx] = b;
+
 return (s);
 }
 
 /**
- * my_ffree - frees a string of strings
- * @pp: string of strings
+ * my_ffree - Frees a pointer to an array of strings.
+ * @pp: Pointer to an array of strings.
  */
 void my_ffree(char **pp)
 {
-char **a = pp;
+char **origin = pp;
 
 if (!pp)
 return;
+
 while (*pp)
 free(*pp++);
-free(a);
+
+free(origin);
 }
 
 /**
- * my_realloc - reallocates a block of memory
- * @ptr: pointer to previous malloc'ated block
- * @old_size: byte size of previous block
- * @new_size: byte size of new block
+ * my_realloc - Reallocates a memory block.
+ * @ptr: Pointer to the previously allocated block.
+ * @old_size: Size of the previous memory block.
+ * @new_size: Size desired for the new memory block.
  *
- * Return: pointer to da ol'block nameen.
+ * Return: Pointer to the reallocated memory block.
  */
 void *my_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-char *p;
+char *new_block;
 
 if (!ptr)
 return (malloc(new_size));
+
 if (!new_size)
-return (free(ptr), NULL);
+{
+free(ptr);
+return (NULL);
+}
+
 if (new_size == old_size)
 return (ptr);
 
-p = malloc(new_size);
-if (!p)
+new_block = malloc(new_size);
+
+if (!new_block)
 return (NULL);
 
 old_size = old_size < new_size ? old_size : new_size;
-while (old_size--)
-p[old_size] = ((char *)ptr)[old_size];
-free(ptr);
-return (p);
-}
 
+for (unsigned int i = 0; i < old_size; i++)
+new_block[i] = ((char *)ptr)[i];
+
+free(ptr);
+return (new_block);
+}

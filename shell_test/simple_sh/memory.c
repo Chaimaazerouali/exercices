@@ -6,12 +6,12 @@
  *
  * Return: 1 if freed, otherwise 0.
  */
-int my_bfree(void **ptr)
+int my_bfree(void **p)
 {
-if (ptr && *ptr)
+if (p && *p)
 {
-free(*ptr);
-*ptr = NULL;
+free(*p);
+*p = NULL;
 return (1);
 }
 return (0);
